@@ -90,7 +90,9 @@ void RBTree<T>::insert(RBTreeNode * &root, RBTreeNode * node) {
     }
     
     if (parentNode == NULL) {
+        node->color = Color.BLACK;
         root = node;
+        return;
     } else {
         node->parent = parentNode;
         if (node->value < parentNode->value) {
@@ -100,7 +102,14 @@ void RBTree<T>::insert(RBTreeNode * &root, RBTreeNode * node) {
         }
     }
     
-    node->color = Color.RED;
+    
+}
+
+template <class T>
+void RBTree::fixInsert(RBTreeNode * &root, RBTreeNode * node) {
+    while(node->parent != NULL && node->parent->color == Color->RED) {
+        
+    }
     
     
 }
