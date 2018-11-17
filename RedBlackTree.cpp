@@ -102,16 +102,40 @@ void RBTree<T>::insert(RBTreeNode * &root, RBTreeNode * node) {
         }
     }
     
-    
+    fixInsert(root, node);
 }
 
 template <class T>
 void RBTree::fixInsert(RBTreeNode * &root, RBTreeNode * node) {
-    while(node->parent != NULL && node->parent->color == Color->RED) {
-        
+    RBTreeNode<T> *parentNode, *gParentNode, *uncleNode;
+    while (node->parent != NULL && node->parent->color == Color->RED) {
+        parentNode = node->parent;
+        gParentNode = parentNode->parent;
+        if (gParentNode != NULL) {
+            if (gParentNode->left == parentNode) {
+                uncleNode = gParentNode->right;
+            } else {
+                uncleNode = gParentNode->left;
+            }
+            if (uncleNode->color == Color->RED) {
+                parentNode->color = Color->BLACK;
+                uncleNode->color = Color->BLACK;
+                gParentNode->color = Color->RED;
+                node = gParentNode;
+            } else if (uncleNode->color == Color->BLACK) {
+                if(parentNode->right == node) {
+                    node = parentNode;
+                    rotateLeft(root, node);
+                } else {
+                    parentNode->color = Color->BLACK;
+                    gParentNode->color = Color->RED;
+                    rotateRight(root, gParentNode);
+                }
+            }
+        }
     }
-    
-    
+
+    root->color = Color.BLACK;
 }
 
 
